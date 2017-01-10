@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.30.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.30.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<div id='map'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiamVycnlqb3NlcGgyMDgiLCJhIjoiY2l4bGUwZmdxMDA5eDMzbW9hc3R4Z29qOCJ9.iw9f-lfTh3YcALjzjvX5Ww';
+var map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/jerryjoseph208/cixlo9vlw00132ro0m4jghni5', //stylesheet location
+    center: [77.533270, 13.035956], // starting position
+    zoom: 17,
+    bearing: -70,
+    pitch: 60, // starting zoom
+});
+
+// Create a popup, but don't add it to the map yet.
+var popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+});
+
+map.on('mousemove', function(e) {
+    var features = map.queryRenderedFeatures(e.point, { layers: ['Smell-Points-Neutral','Smell-Points-Good-Intensity-01','Smell-Points-Good-Intensity-02','Smell-Points-Good-Intensity-03','Smell-Points-Good-Intensity-04','Smell-Points-Good-Intensity-05','Smell-Points-Bad-Intensity-01','Smell-Points-Bad-Intensity-02','Smell-Points-Bad-Intensity-03','Smell-Points-Bad-Intensity-04','Smell-Points-Bad-Intensity-05'] });
+    // console.log("Hello");
+    // Change the cursor style as a UI indicator.
+    map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+
+    if (!features.length) {
+        popup.remove();
+        return;
+    }
+
+    var feature = features[0];
+
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+    popup.setLngLat(feature.geometry.coordinates)
+        .setHTML(feature.properties.Smell)
+        .addTo(map);
+});
+
+// map.setStyle('mapbox://styles/mapbox/dark-v9;
+</script>
+
+</body>
+</html>
