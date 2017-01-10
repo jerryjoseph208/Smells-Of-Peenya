@@ -13,7 +13,107 @@
 </head>
 <body>
 
+<!-- START:Added to test legends -->
+
+<style>
+
+.legend {
+    background-color: #fff;
+    border-radius: 3px;
+    bottom: 30px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    padding: 10px;
+    position: absolute;
+    right: 10px;
+    z-index: 1;
+}
+
+.legend h4 {
+    margin: 0 0 10px;
+}
+
+.legend div span {
+    border-radius: 50%;
+    display: inline-block;
+    height: 10px;
+    margin-right: 5px;
+    width: 10px;
+    opacity: 0.5;
+}
+
+</style>
+
+<!-- END:Added to test legends -->
+
 <div id='map'></div>
+
+<!-- START:Added to test legends -->
+
+<div class='legend'>
+    <h4>Locations</h4>
+    <div><span style='background-color: #4CAF50'></span>Pleasant Smell</div>
+    <div><span style='background-color: #F44336'></span>Unpleasant Smell</div>
+    <div><span style='background-color: #7C7979'></span>Neutral Smell</div>
+    </br>
+    <div></span>Size of Circle &#x221d Smell Intensity</div>
+    <div></span>Hover to see description</div>
+    </br>
+    <h4>Route</h4>
+
+    <div>
+        <span>
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+         width="10px" height="10px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+                <g>
+                    <circle fill="#4CAF50" cx="3.4812" cy="3.4961" r="2.7609"/>
+                    <circle fill="#4CAF50" cx="12.5188" cy="3.4961" r="2.7609"/>
+                    <circle fill="#4CAF50" cx="3.4812" cy="12.5039" r="2.7609"/>
+                    <circle fill="#4CAF50" cx="12.5188" cy="12.5039" r="2.7609"/>
+                </g>
+            </svg>
+    </span>
+    Areas with Pleasant Smell</div>
+
+        <div>
+        <span>
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+         width="10px" height="10px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+                <g>
+                    <circle fill="#F44336" cx="3.4812" cy="3.4961" r="2.7609"/>
+                    <circle fill="#F44336" cx="12.5188" cy="3.4961" r="2.7609"/>
+                    <circle fill="#F44336" cx="3.4812" cy="12.5039" r="2.7609"/>
+                    <circle fill="#F44336" cx="12.5188" cy="12.5039" r="2.7609"/>
+                </g>
+            </svg>
+    </span>
+    Areas with Unpleasant Smell</div>
+
+        <div>
+        <span>
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+         width="10px" height="10px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+                <g>
+                    <circle fill="#7C7979" cx="3.4812" cy="3.4961" r="2.7609"/>
+                    <circle fill="#7C7979" cx="12.5188" cy="3.4961" r="2.7609"/>
+                    <circle fill="#7C7979" cx="3.4812" cy="12.5039" r="2.7609"/>
+                    <circle fill="#7C7979" cx="12.5188" cy="12.5039" r="2.7609"/>
+                </g>
+            </svg>
+    </span>
+    Areas with Neutral Smell</div>
+
+
+<!--     <div><span style='background-color: #B86B25'></span>5,000,000</div>
+    <div><span style='background-color: #CA8323'></span>2,500,000</div>
+    <div><span style='background-color: #DA9C20'></span>1,000,000</div>
+    <div><span style='background-color: #E6B71E'></span>750,000</div>
+    <div><span style='background-color: #EED322'></span>500,000</div>
+    <div><span style='background-color: #F2F12D'></span>0</div> -->
+</div>
+
+<!-- END:Added to test legends -->
+
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiamVycnlqb3NlcGgyMDgiLCJhIjoiY2l4bGUwZmdxMDA5eDMzbW9hc3R4Z29qOCJ9.iw9f-lfTh3YcALjzjvX5Ww';
 var map = new mapboxgl.Map({
@@ -47,7 +147,7 @@ map.on('mousemove', function(e) {
     // Populate the popup and set its coordinates
     // based on the feature found.
     popup.setLngLat(feature.geometry.coordinates)
-        .setHTML(feature.properties.Smell)
+        .setHTML("Smell: <b>"+feature.properties.Smell +"</b></br>Intensity: " +feature.properties.Intensity)
         .addTo(map);
 });
 
