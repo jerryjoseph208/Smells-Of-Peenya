@@ -42,11 +42,71 @@
     opacity: 0.5;
 }
 
+    #fly {
+        display: block;
+        position: absolute;
+        /*top: 30px;*/
+        bottom:30px;
+        left: 45%;
+        margin: 0px auto;
+        width: 10%;
+        height: 40px;
+        padding: 10px;
+        border: none;
+        border-radius: 3px;
+        font-size: 12px;
+        text-align: center;
+        color: #fff;
+        background: #ee8a65;
+        z-index: 1;
+    }
+
+        #next {
+        display: block;
+        position: absolute;
+        /*top: 30px;*/
+        bottom:30px;
+        left: 50%;
+        margin: 0px auto;
+        width: 4%;
+        height: 40px;
+        padding: 10px;
+        border: none;
+        border-radius: 3px;
+        font-size: 12px;
+        text-align: center;
+        color: #fff;
+        background: #9B9B9B;
+    }
+
+        #previous {
+        display: block;
+        position: absolute;
+        /*top: 30px;*/
+        bottom:30px;
+        left: 45%;
+        margin: 0px auto;
+        width: 4%;
+        height: 40px;
+        padding: 10px;
+        border: none;
+        border-radius: 3px;
+        font-size: 12px;
+        text-align: center;
+        color: #fff;
+        background: #9B9B9B;
+    }
+
 </style>
 
 <!-- END:Added to test legends -->
 
 <div id='map'></div>
+
+</br>
+<button id='fly'>Start Journey</button>
+<button id='previous'><</button>
+<button id='next'>></button>
 
 <!-- START:Added to test legends -->
 
@@ -116,11 +176,17 @@
 
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiamVycnlqb3NlcGgyMDgiLCJhIjoiY2l4bGUwZmdxMDA5eDMzbW9hc3R4Z29qOCJ9.iw9f-lfTh3YcALjzjvX5Ww';
+var end = [77.534934, 13.034589];
+var start = [77.53485, 13.03459];
+// var start = [77.531891, 13.036366];
+// var end = [74.50, 40];
 var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/jerryjoseph208/cixlo9vlw00132ro0m4jghni5', //stylesheet location
-    center: [77.533270, 13.035956], // starting position
-    zoom: 17,
+    // center: [77.534934, 13.034589], // starting position], // starting position
+    // center: [77.533270, 13.035956], // starting position
+    center: start,
+    zoom: 16,
     bearing: -70,
     pitch: 60, // starting zoom
 });
@@ -151,6 +217,95 @@ map.on('mousemove', function(e) {
         .addTo(map);
 });
 
+var isAtStart = true;
+document.getElementById('fly').addEventListener('click', function() {
+    // depending on whether we're currently at point a or b, aim for
+    // point a or b
+    var target = isAtStart ? end : start;
+    document.getElementById("fly").style.display="none";
+
+    // and now we're at the opposite point
+    isAtStart = !isAtStart;
+
+    map.flyTo({
+        // These options control the ending camera position: centered at
+        // the target, at zoom level 9, and north up.
+        center: target,
+        zoom: 20,
+        // bearing: 0,
+        bearing: -70,
+        pitch: 60,
+        // These options control the flight curve, making it move
+        // slowly and zoom out almost completely before starting
+        // to pan.
+        speed: 0.7, // make the flying slow
+        curve: 1, // change the speed at which it zooms out
+
+        // This can be any easing function: it takes a number between
+        // 0 and 1 and returns another number between 0 and 1.
+        easing: function (t) {
+            return t;
+        }
+    });
+});
+
+var LocationNo = 1;
+var LocationLatLong = [[77.534850, 13.034612],[77.534928, 13.034865],[77.53447, 13.03506],[77.53450, 13.03493],[77.53448, 13.03482],[77.534471, 13.034787],[77.53446, 13.03476],[77.53445, 13.03472],[77.53421, 13.03460],[77.53416, 13.03462],[77.53424, 13.03482],[77.53399, 13.03497],[77.53375, 13.03504],[77.53359, 13.03579],[77.53317, 13.03687],[77.53263, 13.03649],[77.53154, 13.03670],[77.53134, 13.03676],[77.53186, 13.03620],[77.53181, 13.03624],[77.53177, 13.03635],[77.53170, 13.03621],[77.53177, 13.03618],[77.53260, 13.03510]];
+
+document.getElementById('next').addEventListener('click', function() {
+
+    if (LocationNo == LocationLatLong.length){
+        LocationNo = 0;
+    }
+    
+    map.flyTo({
+        // These options control the ending camera position: centered at
+        // the target, at zoom level 9, and north up.
+        center: LocationLatLong[LocationNo],
+        zoom: 20,
+        // bearing: 0,
+        bearing: -70,
+        pitch: 60,
+        // These options control the flight curve, making it move
+        // slowly and zoom out almost completely before starting
+        // to pan.
+        speed: 0.4, // make the flying slow
+        curve: 1, // change the speed at which it zooms out
+
+        // This can be any easing function: it takes a number between
+        // 0 and 1 and returns another number between 0 and 1.
+        easing: function (t) {
+            return t;
+        }
+    });
+    LocationNo++;
+});
+
+document.getElementById('previous').addEventListener('click', function() {
+
+    if (LocationNo > 0){
+        map.flyTo({
+            // These options control the ending camera position: centered at
+            // the target, at zoom level 9, and north up.
+            center: LocationLatLong[--LocationNo],
+            zoom: 20,
+            // bearing: 0,
+            bearing: -70,
+            pitch: 60,
+            // These options control the flight curve, making it move
+            // slowly and zoom out almost completely before starting
+            // to pan.
+            speed: 0.4, // make the flying slow
+            curve: 1, // change the speed at which it zooms out
+
+            // This can be any easing function: it takes a number between
+            // 0 and 1 and returns another number between 0 and 1.
+            easing: function (t) {
+                return t;
+            }
+        });
+    }
+});
 // map.setStyle('mapbox://styles/mapbox/dark-v9;
 </script>
 
